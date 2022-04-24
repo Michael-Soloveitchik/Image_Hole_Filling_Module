@@ -25,6 +25,7 @@ if __name__ == '__main__':
     # reading and preprocessing input with hole
     input = cv2.imread(args.input_path)
     mask_hole = cv2.imread(args.mask_path)
+
     # merge the mask and input iamge into image with hole
     input_with_hole = mask_2_hole(input, mask_hole)
 
