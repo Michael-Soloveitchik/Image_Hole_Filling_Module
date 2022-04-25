@@ -9,10 +9,10 @@ matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 if __name__ == '__main__':
-    inputs_p = os.path.join(os.getcwd(),r'./Image_Hole_Filling_Module/tests/input/')
-    outputs_p = os.path.join(os.getcwd(),r'./Image_Hole_Filling_Module/tests/output/')
-    outputs_test_p = os.path.join(os.getcwd(),r'./Image_Hole_Filling_Module/tests/output_test/')
-    main = os.path.join(os.getcwd(),r'./Image_Hole_Filling_Module/main.py')
+    inputs_p = os.path.join(os.path.dirname(os.getcwd()),r'./tests/input/')
+    outputs_p = os.path.join(os.path.dirname(os.getcwd()),r'./tests/output/')
+    outputs_test_p = os.path.join(os.path.dirname(os.getcwd()),r'./tests/output_test/')
+    main = os.path.join(os.path.dirname(os.getcwd()),r'./main.py')
     # Create outputs test empty
     os.path.exists(outputs_test_p) or os.makedirs(outputs_test_p)
 
