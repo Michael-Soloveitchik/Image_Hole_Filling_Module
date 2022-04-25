@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     # Iterate over different inputs
     distances = []
-    for i in tqdm(np.random.permutation(size_of_test)):
+    for i in tqdm(np.random.permutation(min(size_of_test,10))):
 
         # arguments
         input = os.path.join(inputs_p,inputs[i])

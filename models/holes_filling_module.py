@@ -118,7 +118,7 @@ class HolesFilling(object):
             output[uy, ux] = new_intensity # assignment
         return output
 
-    def fill_holes(self, input_with_hole):
+    def fill_holes_aproximation(self, input_with_hole):
         """
         THis function ia implemntation of an aproximation algorithm of filling holes. This Algorithm described in my answer to question 2 and detailed in the pdf file.
         :param input_with_hole:  A grayscale image [H,W] in range [0,1] U {-1}, Wehn {-1} is the hole's pixels value
@@ -132,6 +132,7 @@ class HolesFilling(object):
         # Find the intensities of the boundary pixels
         boundary_intensities = input_with_hole[self.bounds_mask].flatten().tolist() # iniitaliztion weights array
 
+        # C. partion into connected froups
         # C.
         # Preparing to iterate over pixels in hole
         output = input_with_hole + 0.
