@@ -3,6 +3,8 @@ import argparse
 from utils.preprocessing import mask_2_hole
 from models.holes_filling_module import HolesFilling
 import cv2
+import time
+import sys
 # import matplotlib
 # matplotlib.use("TkAgg")
 # import matplotlib.pyplot as plt
@@ -20,6 +22,7 @@ if __name__ == '__main__':
     parser.add_argument('--z', type=float, help='z parameter of the weight function')
     parser.add_argument('--epsilon', type=float, help='epsilon parameter of the weight function')
     parser.add_argument('--is_8_connectivity', action='store_true', help='If passed than connectivity assigned to be 8, othervise 4')
+    parser.add_argument('--KNN', action='store_true', help='If passed than thealgorithm run in KNN (sub optimal) mode')
     args = parser.parse_args()
 
     # reading and preprocessing input with hole
@@ -31,10 +34,14 @@ if __name__ == '__main__':
 
     # Initialziation of the module with input parameters
     module = HolesFilling(z=args.z, epsilon=args.epsilon, is_8_connectivity=args.is_8_connectivity)
-    output = module.fill_holes(input_with_hole)
-
+    t1 = time.time()
+    if args.KNN:
+        output = module.fill_holes_KNN(input_with_hole)
+    else:
+        output = module.fill_holes(input_with_hole)
+    t2=time.time()
     color_output = cv2.imwrite(args.output_path, (output*255.).astype('uint8'))
-
+    sys.stdout.write(str(t2-t1))
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
 # if __name__ == '__main__':
 #     '''
