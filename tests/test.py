@@ -54,8 +54,10 @@ if __name__ == '__main__':
         output_im = cv2.imread(output)
         im = np.concatenate([output_test_im, output_im], axis=1)
         plt.imshow(im)
+        plt.show()
         distances.append((((output_test_im-output_im)**2).sum()**0.5)/output_im.size)
         print(' L2 distance: ',distances[-1])
     print('Total error :',np.mean(distances),'std: ',np.std(distances))
+    print('The results might be found in "./tests/output_tests directory')
     # removing recirsevly the 'output_test' folder
-    shutil.rmtree(outputs_test_p)
+    # shutil.rmtree(outputs_test_p)

@@ -117,3 +117,40 @@ class HolesFilling(object):
             # C.4. Assign new intensity
             output[uy, ux] = new_intensity # assignment
         return output
+
+    def fill_holes(self, input_with_hole):
+        """
+        THis function ia implemntation of an aproximation algorithm of filling holes. This Algorithm described in my answer to question 2 and detailed in the pdf file.
+        :param input_with_hole:  A grayscale image [H,W] in range [0,1] U {-1}, Wehn {-1} is the hole's pixels value
+        :return: A grayscale image [H,W] in range [0,1], without a hole.
+        """
+        # A.
+        # First tep According to algorithm first find the coordinates of the boundary pixels and hole's pixels.
+        self.find_hole_n_bounds(input_with_hole)  # find the connections according to connectivity parameter
+
+        # B.
+        # Find the intensities of the boundary pixels
+        boundary_intensities = input_with_hole[self.bounds_mask].flatten().tolist() # iniitaliztion weights array
+
+        # C.
+        # Preparing to iterate over pixels in hole
+        output = input_with_hole + 0.
+        y_x_hole_indeces = np.argwhere(self.hole_mask).tolist()  # hole's pixels coordinates
+        y_x_bounds_indeces = np.argwhere(self.bounds_mask).tolist() # bounds's pixels coordinates
+        # For each pixel in hole:
+        # C.1. compute the weigths of this pixel from boundaries
+        # C.2 compute the dot product of weights with boundaries intensions
+        # C.3. normalize the former result by the sum of weights.
+        # C.4. Assign the normalized result to be new intensity
+        for i, (uy, ux) in enumerate(y_x_hole_indeces):
+            # C.1 build weights array
+            weights = np.array([self.weight_function((ux,uy), (vx,vy)) for vy,vx in y_x_bounds_indeces])
+
+            # C.2.  compute the new value of the hole's pixel
+            nominator = np.dot(boundary_intensities, weights)
+            descriminator = np.dot(np.ones(weights.shape), weights)
+            # C.3. Normalization
+            new_intensity =  nominator / descriminator # new value in the hole
+            # C.4. Assign new intensity
+            output[uy, ux] = new_intensity # assignment
+        return output
