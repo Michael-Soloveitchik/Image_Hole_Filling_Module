@@ -2,7 +2,7 @@
 import argparse
 from utils.preprocessing import mask_2_hole
 from models.holes_filling_module import HolesFilling
-from weight_functions import *
+from weight_functions.standard_weight_function import StandardWeightFunction
 import cv2
 import time
 import sys
@@ -32,9 +32,8 @@ def main():
 
     # merge the mask and input iamge into image with hole
     input_with_hole = mask_2_hole(input, mask_hole)
-    weight_function = StandardWeightFunction(z, epsilon)
     # Initialziation of the module with input parameters
-    module = HolesFilling(weight_function, z=args.z, epsilon=args.epsilon, is_8_connectivity=args.is_8_connectivity)
+    module = HolesFilling(StandardWeightFunction, z=args.z, epsilon=args.epsilon, is_8_connectivity=args.is_8_connectivity)
     t1 = time.time()
     if args.KNN:
         output = module.fill_holes_KNN(input_with_hole)
@@ -42,9 +41,9 @@ def main():
         output = module.fill_holes(input_with_hole)
     t2 = time.time()
     cv2.imwrite(args.output_path, (output * 255.).astype('uint8'))
-    sys.stdout.write(str(t2 - t1))
+    return str(t2 - t1)
 if __name__ == '__main__':
-    main()
+    sys.stdout.write(main())
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
 # if __name__ == '__main__':
