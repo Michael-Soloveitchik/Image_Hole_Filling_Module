@@ -6,14 +6,14 @@ matplotlib.use("TkAgg")
 HOLE = -1.
 import matplotlib.pyplot as plt
 class HolesFilling(object):
-    def __init__(self, z, epsilon, is_8_connectivity):
+    def __init__(self, weight_function, z, epsilon, is_8_connectivity):
         """
         C-tor
         :param z: the power [arameter
         :param epsilon:  The smoothing parameter of dinaminator
         :param is_8_connectivity:  Weather we search for 4 connectivity or 8 conneectivity
         """
-        self.weight_function = StandardWeightFunction(z, epsilon)
+        self.weight_function = weight_functon
         self.is_8_connectivity = is_8_connectivity
         self.bounds_mask = None
         self.hole_mask = None
